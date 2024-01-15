@@ -1,6 +1,7 @@
 const { withNxMetro } = require('@nx/react-native');
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const exclusionList = require('metro-config/src/defaults/exclusionList');
+const { withNativeWind } = require('nativewind/metro');
 
 const defaultConfig = getDefaultConfig(__dirname);
 const { assetExts, sourceExts } = defaultConfig.resolver;
@@ -24,7 +25,12 @@ const customConfig = {
   },
 };
 
-module.exports = withNxMetro(mergeConfig(defaultConfig, customConfig), {
+const nativewindConfig = withNativeWind(
+  mergeConfig(defaultConfig, customConfig),
+  { input: './global.css' }
+);
+
+module.exports = withNxMetro(nativewindConfig, {
   // Change this to true to see debugging info.
   // Useful if you have issues resolving modules
   debug: false,
